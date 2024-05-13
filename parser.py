@@ -19,6 +19,7 @@ headers = {
 
 session = requests.Session()
 session.headers.update(headers)
+session.encoding = 'utf-8'
 
 def get_page_state_data():
     html = session.get(url)
@@ -42,7 +43,7 @@ def get_query(keyword):
         "ctl00$cp_content$btnSimpleQry": "送出查詢"
     }
 
-    session.cookies.update({"JUDBOOK_onekw": keyword})
+    #session.cookies.update({"JUDBOOK_onekw": keyword})
     content = session.post(url, data=payload).content
     soup = bs(content, "lxml")
 
@@ -122,7 +123,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    keyword = args.keyword
+    keyword = args.keyword.encode("UTF-8")
+
     total_count = args.num
 
     data_text = []
